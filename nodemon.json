@@ -1,0 +1,11 @@
+{
+    "exec": "ts-node src/main.ts",
+    "watch": ["src/"],
+    "ext": "js,json,ts",
+    "restartable": "rs",
+    "ignore": [".git", "node_modules/**/node_modules", "src/generated"],
+    "env": {
+        "NODE_ENV": "development"
+    },
+    "verbose": true
+}
