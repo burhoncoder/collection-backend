@@ -22,6 +22,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "preview": "node build/main.js",
     "dev": "nodemon",
     "lint:scripts": "eslint src/**/*.{js,ts}",
     "fix:scripts": "eslint --fix src/**/*.{js,ts}",
