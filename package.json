@@ -49,5 +49,9 @@
     "prettier": "^2.8.8",
     "prisma": "^4.16.2",
     "ts-node": "^10.9.1"
+  },
+  "engineStrict": true,
+  "engines": {
+    "node": ">= 16.0.0"
   }
 }
