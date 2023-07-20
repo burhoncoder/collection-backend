@@ -10,19 +10,35 @@
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
-        "project": ["tsconfig.json"],
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
     "plugins": [
         "@typescript-eslint",
         "unused-imports",
-        "prettier"
+        "prettier",
+        "simple-import-sort"
     ],
     "rules": {
         "prettier/prettier": "error",
         "unused-imports/no-unused-imports": "error",
         "@typescript-eslint/ban-types": "off",
-        "@typescript-eslint/no-empty-function": "off"
+        "@typescript-eslint/no-empty-function": "off",
+        "simple-import-sort/exports": "error",
+        "simple-import-sort/imports": [
+            "error",
+            {
+                "groups": [
+                    ["^\\u0000"],
+                    ["^http$", "^express$", "^inversify$", "^@prisma/client$", "^bcryptjs$", "^jsonwebtoken$", "^lodash$", "^dotenv$", "^cors$"],
+
+                    ["^config"],
+                    // Absolute imports and Relative imports.
+                    ["common(/.*|$)", "infrastructure(/.*|$)", "config(/.*|$)"]
+                ]
+            }
+        ]
     }
 }
+
+

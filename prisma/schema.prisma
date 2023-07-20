@@ -1,0 +1,102 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int          @id @default(autoincrement())
+  username   String       @unique
+  email      String       @unique @db.VarChar(150)
+  password   String
+  role       String
+  is_blocked Boolean
+  Collection Collection[]
+  Comment    Comment[]
+}
+
+model Topic {
+  id         Int         @id @default(autoincrement())
+  name       String
+  Collection Collection?
+}
+
+model Tag {
+  id        Int         @id @default(autoincrement())
+  name      String
+  ItemToTag ItemToTag[]
+}
+
+model Field {
+  id                Int                 @id @default(autoincrement())
+  type              String
+  CollectionToField CollectionToField[]
+  ItemValueField    ItemValueField[]
+}
+
+model Collection {
+  id                Int                 @id @default(autoincrement())
+  name              String
+  description       String
+  image_src         String?
+  topic_id          Int                 @unique
+  topic             Topic               @relation(fields: [topic_id], references: [id])
+  user_id           Int
+  user              User                @relation(fields: [user_id], references: [id])
+  Item              Item[]
+  CollectionToField CollectionToField[]
+}
+
+model CollectionToField {
+  id            Int        @id @default(autoincrement())
+  label         String?
+  placeholder   String?
+  collection_id Int
+  collection    Collection @relation(fields: [collection_id], references: [id], onDelete: Cascade)
+  field_id      Int
+  field         Field      @relation(fields: [field_id], references: [id])
+}
+
+model Item {
+  id             Int              @id @default(autoincrement())
+  name           String
+  is_liked       Boolean
+  collection_id  Int
+  collection     Collection       @relation(fields: [collection_id], references: [id], onDelete: Cascade)
+  ItemToTag      ItemToTag[]
+  Comment        Comment[]
+  ItemValueField ItemValueField[]
+}
+
+model ItemToTag {
+  id      Int  @id @default(autoincrement())
+  item_id Int
+  item    Item @relation(fields: [item_id], references: [id], onDelete: Cascade)
+  tag_id  Int
+  tag     Tag  @relation(fields: [tag_id], references: [id])
+}
+
+model ItemValueField {
+  id       Int    @id @default(autoincrement())
+  value    String
+  item_id  Int
+  item     Item   @relation(fields: [item_id], references: [id], onDelete: Cascade)
+  field_id Int
+  field    Field  @relation(fields: [field_id], references: [id])
+}
+
+model Comment {
+  id         Int      @id @default(autoincrement())
+  text       String
+  created_at DateTime
+  user_id    Int
+  user       User     @relation(fields: [user_id], references: [id], onDelete: NoAction)
+  item_id    Int
+  item       Item     @relation(fields: [item_id], references: [id], onDelete: NoAction)
+}

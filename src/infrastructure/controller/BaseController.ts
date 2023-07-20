@@ -1,8 +1,16 @@
-import { Router } from "express";
+import { Response, Router } from "express";
 import { injectable } from "inversify";
-import "reflect-metadata";
 
-import { IControllerRoute } from "../../common";
+import { httpCodes, IControllerRoute } from "../../common";
+
+const createTypes = {
+	create: httpCodes.CREATED,
+	update: httpCodes.SUCCESS,
+	delete: httpCodes.NO_CONTENT,
+	get: httpCodes.SUCCESS,
+};
+
+type keys = keyof typeof createTypes;
 
 @injectable()
 export abstract class BaseController {
@@ -14,6 +22,11 @@ export abstract class BaseController {
 
 	get router() {
 		return this._router;
+	}
+
+	public ok<T>(res: Response, type: keys = "create", message?: T) {
+		const ultimateMessage = message || { success: true };
+		res.status(createTypes[type]).send(ultimateMessage);
 	}
 
 	protected bindRoutes(routes: IControllerRoute[]) {

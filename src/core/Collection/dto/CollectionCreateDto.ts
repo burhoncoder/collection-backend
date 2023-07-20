@@ -1,0 +1,20 @@
+import { CollectionToField } from "@prisma/client";
+
+import { IsArray, IsNumber, IsString } from "class-validator";
+
+export class CollectionCreateDto {
+	@IsString()
+	public name: string;
+
+	@IsString()
+	public description: string;
+
+	@IsNumber()
+	public topic_id: number;
+
+	@IsNumber()
+	public user_id: number;
+
+	@IsArray()
+	public collection_fields: CollectionToField[];
+}
