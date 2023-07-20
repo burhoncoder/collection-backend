@@ -1,12 +1,13 @@
 import { ContainerModule, interfaces } from "inversify";
 
-import { IUserController } from "./interfaces/IUserController";
-import { IUserService } from "./interfaces/IUserService";
-import { IUserRepository } from "./interfaces/IUserRepository";
-import { UserController } from "./UserController";
-import { UserService } from "./UserService";
-import { UserRepository } from "./UserRepository";
 import { IoCTypes } from "../../infrastructure";
+
+import { IUserController } from "./interfaces/IUserController";
+import { IUserRepository } from "./interfaces/IUserRepository";
+import { IUserService } from "./interfaces/IUserService";
+import { UserController } from "./UserController";
+import { UserRepository } from "./UserRepository";
+import { UserService } from "./UserService";
 
 export const userContainer = new ContainerModule((bind: interfaces.Bind) => {
 	bind<IUserController>(IoCTypes.UserController).to(UserController);
